@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اطلاعات الکی IP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #0b0e1a, #1a1f2f);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            padding: 40px 30px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 25px 50px -8px rgba(0,0,0,0.8);
+            color: #f0f3fa;
+            transition: 0.3s;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-align: center;
+            border-bottom: 1px dashed #4a526b;
+            padding-bottom: 18px;
+            margin-bottom: 25px;
+            color: #b7c9ff;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        label {
+            font-size: 15px;
+            color: #aab4d0;
+            letter-spacing: 0.5px;
+        }
+        .ip-input-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        input {
+            flex: 2;
+            min-width: 180px;
+            padding: 14px 18px;
+            border-radius: 30px;
+            border: 1px solid #3b4360;
+            background: #0f1422;
+            color: #e6edff;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus {
+            border-color: #6d82d4;
+            box-shadow: 0 0 0 3px rgba(109, 130, 212, 0.2);
+        }
+        button {
+            flex: 1;
+            min-width: 100px;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 30px;
+            background: #4f62b0;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 6px 14px rgba(79, 98, 176, 0.3);
+        }
+        button:hover {
+            background: #6a7fd9;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(79, 98, 176, 0.5);
+        }
+        button:active {
+            transform: scale(0.96);
+        }
+        #result {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 28px;
+            padding: 20px 22px;
+            border-left: 4px solid #5f73c9;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #2c334a;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .label {
+            color: #8f9bc7;
+            font-weight: 300;
+        }
+        .value {
+            color: #d6e2ff;
+            font-weight: 500;
+            direction: ltr;
+            text-align: left;
+        }
+        .fake-badge {
+            display: inline-block;
+            background: #ffb34720;
+            color: #ffb347;
+            font-size: 12px;
+            padding: 4px 14px;
+            border-radius: 40px;
+            border: 1px solid #ffb34740;
+            margin-top: 18px;
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #5b6485;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🌐 موقعیت‌یاب الکی</h1>
+
+        <div class="input-group">
+            <label>آدرس IP را وارد کن (مثلاً ۸.۸.۸.۸)</label>
+            <div class="ip-input-row">
+                <input type="text" id="ipInput" placeholder="مثل 192.168.1.1" value="8.8.8.8">
+                <button id="showBtn">🔍 بررسی کن!</button>
+            </div>
+        </div>
+
+        <div id="result">
+            <div class="info-row">
+                <span class="label">📌 IP وارد شده</span>
+                <span class="value" id="displayIp">-</span>
+            </div>
+            <div class="info-row">
+                <span class="label">🌍 کشور (الکی)</span>
+                <span class="value" id="country">-</span>
+            </div>
+            <div class="info-row">
+                <span class="label">🏙️ شهر (الکی)</span>
+                <span class="value" id="city">-</span>
+            </div>
+            <div class="info-row">
+                <span class="label">📡 ISP (الکی)</span>
+                <span class="value" id="isp">-</span>
+            </div>
+            <div class="info-row">
+                <span class="label">🗺️ مختصات الکی</span>
+                <span class="value" id="coords">-</span>
+            </div>
+            <div class="fake-badge">⚠️ تمام اطلاعات به‌صورت تصادفی ساخته شده‌اند</div>
+        </div>
+        <div class="footer">صرفاً برای سرگرمی · هیچ داده‌ای ذخیره نمی‌شود</div>
+    </div>
+
+    <script>
+        (function() {
+            // دیتابیس الکی برای نمایش
+            const fakeData = [
+                { country: 'آلمان', city: 'برلین', isp: 'Deutsche Telekom', lat: 52.52, lon: 13.40 },
+                { country: 'فرانسه', city: 'پاریس', isp: 'Orange S.A.', lat: 48.85, lon: 2.35 },
+                { country: 'بریتانیا', city: 'لندن', isp: 'BT Group', lat: 51.50, lon: -0.12 },
+                { country: 'ایتالیا', city: 'رم', isp: 'TIM', lat: 41.90, lon: 12.50 },
+                { country: 'اسپانیا', city: 'مادرید', isp: 'Telefónica', lat: 40.41, lon: -3.70 },
+                { country: 'ترکیه', city: 'استانبول', isp: 'Turk Telekom', lat: 41.00, lon: 28.98 },
+                { country: 'امارات', city: 'دبی', isp: 'Etisalat', lat: 25.20, lon: 55.27 },
+                { country: 'ژاپن', city: 'توکیو', isp: 'NTT', lat: 35.68, lon: 139.76 },
+                { country: 'استرالیا', city: 'سیدنی', isp: 'Telstra', lat: -33.86, lon: 151.20 },
+                { country: 'برزیل', city: 'سائوپائولو', isp: 'Vivo', lat: -23.55, lon: -46.63 },
+                { country: 'کانادا', city: 'تورنتو', isp: 'Rogers', lat: 43.65, lon: -79.38 },
+                { country: 'مصر', city: 'قاهره', isp: 'TE Data', lat: 30.04, lon: 31.23 }
+            ];
+
+            const ipInput = document.getElementById('ipInput');
+            const showBtn = document.getElementById('showBtn');
+            const displayIp = document.getElementById('displayIp');
+            const countryEl = document.getElementById('country');
+            const cityEl = document.getElementById('city');
+            const ispEl = document.getElementById('isp');
+            const coordsEl = document.getElementById('coords');
+
+            // تابع برای تولید اطلاعات الکی بر اساس IP (همیشه یکسان برای یک IP مشخص)
+            function getFakeInfoByIP(ip) {
+                // از خود IP برای تولید یک عدد ثابت استفاده می‌کنیم
+                let hash = 0;
+                for (let i = 0; i < ip.length; i++) {
+                    hash = ((hash << 5) - hash) + ip.charCodeAt(i);
+                    hash |= 0; // تبدیل به ۳۲ بیت
+                }
+                // عدد مطلق بگیریم
+                const index = Math.abs(hash) % fakeData.length;
+                const base = fakeData[index];
+
+                // یه کم تغییر تصادفی ولی ثابت در مختصات (برای جذابیت)
+                const latOffset = (Math.abs(hash % 100) / 1000) * (hash % 2 === 0 ? 1 : -1);
+                const lonOffset = (Math.abs((hash >> 4) % 100) / 1000) * (hash % 3 === 0 ? 1 : -1);
+
+                return {
+                    country: base.country,
+                    city: base.city,
+                    isp: base.isp,
+                    lat: (base.lat + latOffset).toFixed(4),
+                    lon: (base.lon + lonOffset).toFixed(4)
+                };
+            }
+
+            function updateDisplay(ip) {
+                // اعتبارسنجی ساده IP (فقط برای نمایش)
+                const ipPattern = /^(\d{1,3}\.){3}\d{1,3}$/;
+                if (!ipPattern.test(ip)) {
+                    displayIp.textContent = '⚠️ فرمت IP نامعتبر';
+                    countryEl.textContent = '-';
+                    cityEl.textContent = '-';
+                    ispEl.textContent = '-';
+                    coordsEl.textContent = '-';
+                    return;
+                }
+
+                const info = getFakeInfoByIP(ip);
+                displayIp.textContent = ip;
+                countryEl.textContent = info.country;
+                cityEl.textContent = info.city;
+                ispEl.textContent = info.isp;
+                coordsEl.textContent = `${info.lat} , ${info.lon}`;
+            }
+
+            // رویدادها
+            showBtn.addEventListener('click', function() {
+                const ip = ipInput.value.trim();
+                updateDisplay(ip);
+            });
+
+            // اجرا با مقدار پیش‌فرض (۸.۸.۸.۸)
+            window.addEventListener('DOMContentLoaded', function() {
+                updateDisplay(ipInput.value.trim());
+            });
+
+            // در صورت زدن Enter
+            ipInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    showBtn.click();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
